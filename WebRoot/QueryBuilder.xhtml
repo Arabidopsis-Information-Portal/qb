@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/template-querybuilder.xhtml">
+
+	<style>
+.top {
+	vertical-align: top;
+}
+</style>
+	
+
+	<rich:panel header="PSQL selection">
+		<h:panelGrid columns="2" columnClasses="top, top">
+			<h:form>
+				<rich:tree value="#{richFacesTreeNodeBean.rootNode}" var="node"
+					toggleType="client" selectionType="ajax"
+					selectionChangeListener="#{richFacesTreeNodeBean.selectionChanged}">
+					<rich:treeNode>
+						#{node.data} 
+					</rich:treeNode>
+				</rich:tree>
+				<br/>
+				<rich:panel header="Type WHERE Clause and Get PQL" style="width: 880px">
+
+                              <h:outputText value="Type WHERE Clause: " />
+
+                              <h:inputText size="128" value="#{user.name}" >
+
+                                    <f:validateLength minimum="1" maximum="120" />
+
+                              </h:inputText>
+                              
+&#160; &#160;
+                              <a4j:commandButton value="Get PQL" render="listing" />
+
+                              
+<br/>
+<br/>
+                              
+                               
+                              <a4j:outputPanel id="listing" layout="block" ajaxRendered="true">
+									<rich:panel header="Generated PQL"
+										rendered="#{not empty user.name}">
+										
+										<h:outputText value="#{richFacesTreeNodeBean.getList()} #{user.name}" />
+			    						
+									</rich:panel>
+							</a4j:outputPanel>
+
+                        </rich:panel>
+			
+			
+			
+			</h:form>
+			
+			<!--  
+			<a4j:outputPanel layout="block" ajaxRendered="true">
+				<rich:panel header="Current selection:"
+					rendered="#{not empty richFacesTreeNodeBean.selection}">
+					<a4j:repeat value="#{richFacesTreeNodeBean.selection}"
+						var="nodeData">
+			    			#{nodeData}
+		    		</a4j:repeat>
+				</rich:panel>
+			</a4j:outputPanel>
+			
+		  -->
+				
+		</h:panelGrid>
+	</rich:panel>
+	<br/>
+	
+	
+                       
+</ui:composition>
